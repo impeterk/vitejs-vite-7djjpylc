@@ -15,7 +15,7 @@ function App() {
     x: 0,
     y: 0,
   });
-  const [stream, setStream] = useState([]);
+  const [stream, setStream] = useState<string[]>([]);
   const [loc, setLoc] = useState();
   useEffect(() => {
     if (image && canvasRef.current) {
@@ -80,10 +80,12 @@ function App() {
 
   useEffect(() => {
     const timeID = setTimeout(() => {
-      navigator.mediaDevices.getUserMedia({ video: true }).then((video) => {
-        console.log('Camera stream:', video);
-        setStream((prev) => [...prev, video.id]);
-      });
+      navigator.mediaDevices.enumerateDevices()
+  .then(devices => {
+    devices.forEach(device => {
+      setStream(prev => [...prev, `${device.kind}: ${device.label} (ID: ${device.deviceId})`]);
+    });
+  })
       setLoc(window.location.href);
     });
     return () => {
