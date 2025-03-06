@@ -94,7 +94,7 @@ function App() {
   return (
     <div className="flex flex-col items-center gap-4">
       <pre>{JSON.stringify(stream, null, 2)}</pre>
-      <QRCode height={256} width={256} value={loc!} />
+      <QRCode height={256} width={256} value={loc || ''} />
       <input
         type="range"
         min="0"
